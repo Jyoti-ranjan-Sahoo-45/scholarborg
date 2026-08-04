@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-07-31 08:15:46",
+  "target": "lms",
+  "lms": {
+    "modified": [
+      "bootstrap/cache/services.php"
+    ],
+    "new": []
+  },
+  "crm": {
+    "modified": [],
+    "new": []
+  }
+}

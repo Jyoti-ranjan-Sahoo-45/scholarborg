@@ -1,0 +1,2 @@
+Field	Type	Null	Key	Default	Extra
+session_api	enum('local','big_blue_button','zoom','agora','jitsi','google_meet','microsoft_teams')	NO		local	

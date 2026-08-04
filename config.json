@@ -1,0 +1,29 @@
+{
+  "ssh": {
+    "host": "89.117.157.69",
+    "port": 65002,
+    "username": "u181357068",
+    "password": "Jyoti@45r",
+    "domain": "scholarb.org"
+  },
+  "lms": {
+    "remote_path": "/home/u181357068/domains/scholarb.org/public_html",
+    "database": {
+      "db_host": "127.0.0.1",
+      "db_port": 3306,
+      "db_name": "u181357068_Eduction2",
+      "db_user": "u181357068_Eduction2",
+      "db_password": "Eduction2@1234"
+    }
+  },
+  "crm": {
+    "remote_path": "/home/u181357068/domains/scholarb.org/erpgo",
+    "database": {
+      "db_host": "127.0.0.1",
+      "db_port": 3306,
+      "db_name": "u181357068_Serp1",
+      "db_user": "u181357068_Serp1",
+      "db_password": "Serp1@1234"
+    }
+  }
+}
