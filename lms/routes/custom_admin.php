@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 // ─── Admin Appointment Management (Manual Booking / Reschedule / Edit) ──────
 Route::group([
     'prefix'     => 'appointments',
-    'namespace'  => 'App\Http\Controllers\Admin',
+    'namespace'  => '',
     'middleware' => ['web', 'auth', 'admin'],
 ], function () {
     Route::get('/create',       'AppointmentsController@create')->name('admin.appointments.create');

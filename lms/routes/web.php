@@ -356,6 +356,9 @@ Route::group(['namespace' => 'Web', 'middleware' => ['check_mobile_app', 'impers
         Route::get('/', 'InstructorsController@instructors');
     });
 
+    Route::get('/api/featured-tutors', 'InstructorsController@getFeaturedTutorsApi');
+    Route::get('/api/student-dashboard-preview', 'InstructorsController@getDashboardPreviewApi');
+
     Route::group(['prefix' => 'organizations'], function () {
         Route::get('/', 'InstructorsController@organizations');
     });
@@ -586,5 +589,8 @@ Route::group(['middleware' => ['admin', 'admin_locale', 'impersonate']], functio
     Route::get('/admin/settings/zoho/connect', 'Admin\SettingsController@zohoConnect');
     Route::get('/admin/settings/zoho/callback', 'Admin\SettingsController@zohoCallback');
 });
+
+
+
 
 

@@ -62,6 +62,8 @@ def sync_directory(sftp, local_dir, remote_dir, dry_run=False, checkpoint_dir=No
     print("-" * 50)
     
     for root, dirs, files in os.walk(local_dir):
+        # Prune excluded directories in-place to avoid traversing massive folders
+        dirs[:] = [d for d in dirs if not is_excluded(os.path.join(root, d), local_dir)]
         for file in files:
             local_file_path = os.path.join(root, file)
             

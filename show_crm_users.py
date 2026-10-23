@@ -2,7 +2,7 @@ import paramiko
 import json
 
 # Load configuration
-with open('d:/scholarborg/config.json') as f:
+with open('config.json') as f:
     config = json.load(f)
 
 ssh_conf = config['ssh']

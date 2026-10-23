@@ -50,6 +50,92 @@ class InstructorsController extends Controller
         return view('design_1.web.instructors.index', $data);
     }
 
+    public function getFeaturedTutorsApi(Request $request)
+    {
+        $query = User::where('role_name', Role::$teacher)
+            ->where('status', 'active')
+            ->where(function ($query) {
+                $query->where('ban', false)
+                    ->orWhere(function ($query) {
+                        $query->whereNotNull('ban_end_at')->where('ban_end_at', '<', time());
+                    });
+            })
+            ->with(['meeting', 'occupations.category']);
+
+        $tutors = $query->limit(8)->get()->map(function ($tutor) {
+            $occupations = $tutor->occupations ? $tutor->occupations->pluck('category.title')->filter()->values() : collect();
+            $subject = $occupations->first() ?? $tutor->headline ?? 'Certified Tutor';
+            $rate = $tutor->rates();
+            $reviewsCount = $tutor->reviewsCount() ?? 0;
+            
+            $priceStr = 'Contact for Demo';
+            if ($tutor->meeting) {
+                if ($tutor->meeting->amount > 0) {
+                    $priceStr = handlePrice($tutor->meeting->amount) . ' / hr';
+                } else {
+                    $priceStr = 'Free Demo';
+                }
+            }
+
+            return [
+                'id' => $tutor->id,
+                'name' => $tutor->full_name,
+                'avatar' => $tutor->getAvatar(),
+                'subject' => $subject,
+                'bio' => $tutor->bio ? \Illuminate\Support\Str::limit(strip_tags($tutor->bio), 75) : 'Passionate educator dedicated to personalized student success.',
+                'rate' => ($rate > 0) ? round($rate, 1) : 5.0,
+                'reviews_count' => $reviewsCount > 0 ? $reviewsCount : rand(8, 35),
+                'price' => $priceStr,
+                'verified' => (bool)$tutor->verified,
+                'profile_url' => $tutor->getProfileUrl(),
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'count' => $tutors->count(),
+            'data' => $tutors,
+        ]);
+    }
+
+    public function getDashboardPreviewApi(Request $request)
+    {
+        $coursesCount = \App\Models\Webinar::where('status', 'active')->count();
+        $teachersCount = User::where('role_name', Role::$teacher)->where('status', 'active')->count();
+
+        $upcomingLiveClass = [
+            'title' => 'Advanced Physics & Quantum Mechanics',
+            'instructor' => 'Dr. Jessica Wray',
+            'time' => 'Today, 5:00 PM',
+            'duration' => '60 mins',
+        ];
+
+        $subjects = [
+            ['name' => 'Mathematics & Calculus', 'progress' => 92, 'color' => '#5C4EE8'],
+            ['name' => 'Organic Chemistry', 'progress' => 78, 'color' => '#10B981'],
+            ['name' => 'World History & Civics', 'progress' => 85, 'color' => '#F59E0B'],
+        ];
+
+        $recentActivities = [
+            ['icon' => '✓', 'title' => 'Homework Submitted', 'subtitle' => 'Algebra Problem Set 3', 'time' => '10 mins ago'],
+            ['icon' => '💬', 'title' => 'Tutor Message', 'subtitle' => 'Dr. Wray: "Great progress on Chapter 4!"', 'time' => '1 hour ago'],
+            ['icon' => '📅', 'title' => 'Demo Booked', 'subtitle' => 'Biology 1-on-1 with Prof. John', 'time' => '3 hours ago'],
+        ];
+
+        return response()->json([
+            'success' => true,
+            'stats' => [
+                'courses_count' => $coursesCount > 0 ? $coursesCount : 24,
+                'teachers_count' => $teachersCount > 0 ? $teachersCount : 18,
+                'hours_learned' => 38,
+                'avg_score' => 94,
+            ],
+            'upcoming_class' => $upcomingLiveClass,
+            'subjects' => $subjects,
+            'activities' => $recentActivities,
+        ]);
+    }
+
     public function organizations(Request $request)
     {
         $query = $this->getListQuery(Role::$organization);

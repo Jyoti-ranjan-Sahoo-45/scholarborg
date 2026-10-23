@@ -5,6 +5,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([], function () {
 
+    // ── Demo Booking / Onboarding ──────────────────────────────────────────────
+    Route::group(['prefix' => 'demo-booking', 'middleware' => ['api.request.type']], function () {
+        Route::post('/book',   ['uses' => 'OnboardingController@bookDemo']);
+        Route::post('/verify', ['uses' => 'OnboardingController@verifyDemo']);
+        Route::post('/resend', ['uses' => 'OnboardingController@resendCode']);
+    });
+    // ──────────────────────────────────────────────────────────────────────────
+
     Route::group(['prefix' => 'courses'], function () {
 
         Route::get('/', ['uses' => 'WebinarController@index']);
@@ -131,6 +139,7 @@ Route::group([], function () {
 
     //End New API
 });
+
 
 
 

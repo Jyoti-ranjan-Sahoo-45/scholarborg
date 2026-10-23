@@ -267,6 +267,14 @@ Route::group(['middleware' => 'api.auth'], function () {
     Route::post('/content-delete-request', 'ContentDeleteRequestController@store');
 
     Route::post('/delete-account-request', 'UsersController@deleteAccount');
+
+    /***** Parent Portal APIs *****/
+    Route::group(['prefix' => 'parent'], function () {
+        Route::get('/children', ['uses' => 'ParentChildrenController@index']);
+        Route::post('/children', ['uses' => 'ParentChildrenController@store']);
+        Route::delete('/children/{id}', ['uses' => 'ParentChildrenController@destroy']);
+        Route::get('/children/{id}/progress', ['uses' => 'ParentChildrenController@progress']);
+    });
 });
 
 Route::group([], function () {
