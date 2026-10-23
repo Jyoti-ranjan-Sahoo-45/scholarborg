@@ -462,3 +462,57 @@ All codebase modifications, deployment steps, and upgrades are recorded here chr
   - Views under `resources/views/admin/theme/` [MODIFY]
   - Views under `resources/views/landingBuilder/` [NEW]
   - Assets under `public/store/landing_builder/` [NEW]
+
+---
+
+### [2026-08-06 03:30] Integration of Scholarb Template Landing Page
+* **Zip File Extraction:** Extracted the GCSE landing page template from `d:\scholarborg\mathclone.zip` containing `index.html` and `style.css`.
+* **Static Homepage Integration:** Created a new static Blade view `scholarb_home.blade.php` and copied its accompanying stylesheet `scholarb.css`. Bypassed the default database-driven Landing Page Builder by directly including `scholarb_home` in the homepage index.
+* **Modified/New Files:**
+  - [scholarb_home.blade.php](file:///d:/scholarborg/lms/resources/views/design_1/web/home/scholarb_home.blade.php) [NEW]
+  - [scholarb.css](file:///d:/scholarborg/lms/public/assets/default/css/scholarb.css) [NEW]
+  - [index.blade.php](file:///d:/scholarborg/lms/resources/views/design_1/web/home/index.blade.php)
+
+---
+
+### [2026-08-06 03:46] Homepage Auth Link Fixes
+* **Auth Routes Alignment:** Updated all static landing page references of `/auth/login` and `/auth/signup` to point to the correct Laravel routes `/login` and `/register` respectively.
+* **Modified Files:**
+  - [scholarb_home.blade.php](file:///d:/scholarborg/lms/resources/views/design_1/web/home/scholarb_home.blade.php)
+
+---
+
+### [2026-08-06 04:05] Desktop Layout Refinement & Spacing Optimization
+* **Desktop Styling Polish:** Appended a `@media (min-width: 1024px)` block to `scholarb.css` implementing comprehensive desktop layout fixes:
+  - Normalizing feature card, AI marking card, and testimonial card heights.
+  - Setting standard card border radii to 20px, equal 32px padding, and aligned CTA buttons.
+  - Standardizing section spacing to 100px.
+  - Centering section headings and cap illustration.
+  - Constraining paragraphs to 600px width and lesson previews to 760px width.
+  - Formatting testimonial cards into a clean 3-column grid and circular avatars.
+* **Modified Files:**
+  - [scholarb.css](file:///d:/scholarborg/lms/public/assets/default/css/scholarb.css)
+  - [scholarb_home.blade.php](file:///d:/scholarborg/lms/resources/views/design_1/web/home/scholarb_home.blade.php)
+
+---
+
+### [2026-08-06 04:26] Revert Desktop Layout Refinement & Spacing Optimization
+* **Reversion of CSS Refinements:** Restored `scholarb.css` back to its original extracted version to discard the desktop spacing and alignment changes. Kept the custom Scholarb GCSE landing page active with dynamic parameters and the corrected auth links.
+* **Modified Files:**
+  - [scholarb.css](file:///d:/scholarborg/lms/public/assets/default/css/scholarb.css)
+
+---
+
+### [2026-08-08 20:59] Revert Scholarb Template Landing Page Deployment & Theme Settings
+* **Homepage Reversion:** Reverted `index.blade.php` to its original design (`landingBuilder.front.landing.index`) to bypass the static GCSE homepage template.
+* **Deleted Files Locally and Remotely:**
+  - Removed custom template file `scholarb_home.blade.php` locally and from remote production.
+  - Removed custom stylesheet file `scholarb.css` locally and from remote production.
+* **Database Theme Update:** Set `enable = 0` on the custom `MathsGenie` theme (id: 13) in the remote database to fall back to the default `Lite (Included)` theme, restoring the original navigation bar structure.
+* **Laravel Cache Cleared:** Executed artisan `cache:clear`, `config:clear`, `route:clear`, and `view:clear` on the remote server to propagate changes.
+* **Modified/Deleted Files:**
+  - [index.blade.php](file:///d:/scholarborg/lms/resources/views/design_1/web/home/index.blade.php) [MODIFY]
+  - [scholarb_home.blade.php](file:///d:/scholarborg/lms/resources/views/design_1/web/home/scholarb_home.blade.php) [DELETE]
+  - [scholarb.css](file:///d:/scholarborg/lms/public/assets/default/css/scholarb.css) [DELETE]
+
+
